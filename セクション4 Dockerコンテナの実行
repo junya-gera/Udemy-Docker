@@ -1,0 +1,13 @@
+・Dockerコンテナの実行
+
+  $ docker run hello-world
+    順にdockerコマンド、サブコマンド、イメージの指定
+    runは次の3つを1度に実行
+      docker pull   →イメージの取得
+      docker create →コンテナの作成
+      docker start  →コンテナの起動
+    
+    イメージ名の後に何も書かなければlatestのイメージがダウンロードされる
+    明示的にタグを記述する場合はdocker run hello-world:latestのようにコロンの後に書く
+
+  
