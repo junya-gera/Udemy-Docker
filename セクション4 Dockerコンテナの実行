@@ -78,3 +78,9 @@
         このファイルはまとめてDockerデーモンに送られる。ファイルサイズが大きい場合、
         転送に時間がかかるので、余計なファイルは消しておく
     
+  19.Dockerfileを使用したイメージビルドの実行
+    $ docker build --no-cache -t docker-whale .
+      → --no-cache すでにビルドしていてdockerfileの中身が同じであれば
+        Using cacheが残っているので更新されない。
+        buildfileにapt-get updateがあるとき、このままだと更新されないので
+        --no-cacheを付けることでキャッシュを無効化し全ての命令を実行する
