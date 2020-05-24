@@ -84,3 +84,23 @@
         Using cacheが残っているので更新されない。
         buildfileにapt-get updateがあるとき、このままだと更新されないので
         --no-cacheを付けることでキャッシュを無効化し全ての命令を実行する
+
+  21.Docker Hubへのイメージのプッシュ方法
+    → プッシュ リポジトリのイメージを追加すること
+
+    $ docker login
+      → Docker Hubへログインするコマンド
+    
+    Docker Hubにおけるタグ付けルール
+      <Docker ID>/<イメージ名>:<タグ名>
+        → タグ名は省略したらlatest
+
+    $ docker tag docker-whale okogejunya/docker-whale:ver1
+      → イメージをプッシュするためにタグ付けルールに乗っ取った名前に変更
+
+    $ docker push <Docker ID>/<イメージ名>:<タグ名>
+      → Docker HubにPushする際のコマンド
+
+    $ docker pull <Docker ID>/<イメージ名>:<タグ名>
+      → イメージへのアクセス権限があるDocker Hubのユーザーアカウントがあれば
+        どこからでもイメージを取得できるようになった
