@@ -17,3 +17,33 @@
       cowsay Hello!!はdocker/whalesayのコンテナ内で呼び出すコマンド
       イメージ名の後にコマンドを続けることでコンテナが立ち上がった際に実行できる
       cowsayはクジラのAAに好きな言葉を喋らせるコマンド
+
+  17.ローカル上のDockerイメージの管理
+    $ docker images
+      → ローカル上にダウンロード済みのイメージ一覧を表示するコマンド
+
+      REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+      hello-world         latest              bf756fb1ae65        4 months ago        13.3kB
+      docker/whalesay     latest              6b362a9f73eb        5 years ago         247MB
+      
+    $ docker tag docker/whalesay my_whalesay
+      →tag タグ付けするサブコマンド。元のイメージ名、新しいイメージ名の順に書く
+      → my_whalesayでdocker/whalesayと全く同じ意味になる
+
+    $ docker tag docker/whalesay my_whalesay:ver1
+      → 新しいイメージ名にver1というタグ名をつける
+
+    $ docker inspect my_whalesay
+      → inspect イメージの詳細情報を表示するサブコマンド
+      → 後ろに対象のイメージ名かイメージIDをつける
+
+    $ docker -f rmi docker/whalesay
+      → rmi ローカル上のイメージを削除するサブコマンド
+      → もしそのイメージを使用して作られたコンテナがある場合は、
+        まずそのコンテナを先に削除するか、強制削除する-fを付ける
+
+    $ docker pull docker/whalesay
+      → イメージを取得するサブコマンド。削除してもこれで戻せる
+      → ちなみにlatestタグのものが必ず最新とは限らないので、タグは明示的に
+        つけたほうがいい
+    
