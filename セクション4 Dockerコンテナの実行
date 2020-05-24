@@ -108,6 +108,8 @@
 
   23.nginxコンテナの実行とデタッチドモードの解説
 
+    nginxイメージのExposing extermal portに書いてあるコマンド⤵️
+    $ docker run --name some-nginx -d -p 8080:80 some-content-nginx
     $ docker run --name <コンテナ名> -d -p <ホスト側のポート番号>:<コンテナ側のポート番号> <イメージ名>
       → --name <コンテナ名> 起動時のコンテナに名前をつけるオプション
       → -d デタッチドモード コンテナの実行をバックグラウンドで行うもの
@@ -118,3 +120,25 @@
 
     $ docker stop test-nginx
     $ docker rm test-nginx
+
+
+
+    24.バインドマウントの解説
+      ホスト側のディレクトリをコンテナにマウントする
+
+      Hosting some simple static contentに書いてあるコマンド
+      $ docker run --name some-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
+        -v <ホスト側のディレクトリ>:<コンテナ側のマウントポイント>:<オプション>  が追加
+          → -v 静的なコンテンツをnginxで公開する 
+          → :ro read only
+          → 絶対パスで指定する
+
+      $ mkdir docker-tutrial
+      $ cd docker-tutrial
+      $ mkdir html
+      $ cd html
+
+      $ vim index.html
+
+      $ docker run --name first-nginx -v /Users/wadajunya/imagebuild/docker-tutrial/html:/usr/share/nginx/html:ro -d -p 8080:80 nginx
+        これでホスト上のディレクトリをnginx上で公開できるようになった
