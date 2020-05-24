@@ -10,4 +10,10 @@
     イメージ名の後に何も書かなければlatestのイメージがダウンロードされる
     明示的にタグを記述する場合はdocker run hello-world:latestのようにコロンの後に書く
 
-  
+  16.whalesayコンテナの実行とDockerイメージダウンロードの動作
+
+    $ docker run docker/whalesay cowsay Hello!!
+      イメージ名がdocker/whalesay
+      cowsay Hello!!はdocker/whalesayのコンテナ内で呼び出すコマンド
+      イメージ名の後にコマンドを続けることでコンテナが立ち上がった際に実行できる
+      cowsayはクジラのAAに好きな言葉を喋らせるコマンド
