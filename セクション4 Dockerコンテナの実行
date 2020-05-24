@@ -18,6 +18,8 @@
       イメージ名の後にコマンドを続けることでコンテナが立ち上がった際に実行できる
       cowsayはクジラのAAに好きな言葉を喋らせるコマンド
 
+
+
   17.ローカル上のDockerイメージの管理
     $ docker images
       → ローカル上にダウンロード済みのイメージ一覧を表示するコマンド
@@ -46,4 +48,33 @@
       → イメージを取得するサブコマンド。削除してもこれで戻せる
       → ちなみにlatestタグのものが必ず最新とは限らないので、タグは明示的に
         つけたほうがいい
+
+
+
+  18.Dockerfileを利用したイメージビルド方法の解説
+    Dockerfileとは、コンテナの構成情報を定義したファイル。
+    Dockerfileからイメージを構築することをイメージビルドという
+
+    $ mkdir imagebuild
+    $ cd imagebuild/
+    $ vim dockerfile
+    $ FROM docker/whalesay:latest
+      → FROM イメージを作成する際に、元になるイメージを指定する命令
+    
+    $ RUN apt-get -y update && apt-get install -y fortunes
+      → RUN イメージビルドの際に実行するコマンドを指定するための命令
+      → apt-get パッケージを操作・管理するコマンド
+      → install 指定したパッケージをインストール(今回はfortunes)
+
+    $ CMD /usr/games/fortune | cowsay
+      → CMD コンテナが作成された後に実行するコマンドを指定する命令
+
+    $ docker build -t docker-whale .
+      → build イメージをビルドするサブコマンド
+      → -t docker-whale タグ名の指定(今回はdocker-whaleという名前を付ける)
+      → . ビルドコンテキストの指定
+      → ビルドコンテキスト イメージを作成する際にアクセスできるディレクトリやファイルの
+        範囲を示すもの。今回はカレントディレクトリの.
+        このファイルはまとめてDockerデーモンに送られる。ファイルサイズが大きい場合、
+        転送に時間がかかるので、余計なファイルは消しておく
     
