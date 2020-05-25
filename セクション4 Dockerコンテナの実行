@@ -214,3 +214,20 @@
     ⑥Removing → 削除中
 
     ⑦Dead → 正常に終了できずに残ってしまった状態。削除するしかない
+
+
+
+  27.コンテナのシェルに接続するコマンド
+    起動中のコンテナに接続する方法
+      $ docker attach <コンテナ名 or コンテナID>
+        → シェルに接続できるのは、コンテナでシェルを実行している場合のみ
+          exitで抜けた場合、プロセスも切れるのでコンテナが停止してしまう
+      
+      $ docker exec -it <コンテナ名 or コンテナID> /bin/bash
+        → exec自体は、起動したコンテナ内で任意のコマンドを実行するためのコマンド
+        → exitで抜けてもコンテナは停止しない。こちらがベストプラクティス
+
+    ubuntuのコンテナを起動して、bashを立ち上げた状態にする
+    $ docker run --name connect-test -it -d ubuntu /bin/bash
+
+    $ docker exec -it connect-test /bin/bash
