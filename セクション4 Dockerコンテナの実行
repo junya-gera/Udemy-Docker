@@ -181,3 +181,36 @@
         $ docker run --name web -p 8080:8080 --rm nginx:ver1
 
       ADD命令はCOPY命令に加えていくつか機能があるが、COPYがベストプラクティス
+
+
+  26.コンテナのライフサイクル
+    コンテナが起動している間は、コンテナはホストマシンの1プロセスとして動作する
+    コンテナが作成されて削除されるまで、たくさんのステータスがある
+
+    ①Created → コンテナが作成されて実行される前の状態
+      $ docker create --name status-test -it alpine /bin/sh
+      → -i 標準入力を開き続け、手元の環境でdocker内入力ができるようになる
+        -t tty（擬似端末）を割り当てる
+
+      $ docker ps
+        → 現在実行中のコンテナの一覧を確認できる
+
+      $ docker ps -a
+        → 実行していないコンテナも含めて表示する
+
+    ②Running → コンテナがstartされ実行中の状態
+      $ docker start status-test
+        → Up 7 secondsなど、起動してからの時間が記載されている
+
+    ③Paused → pauseコマンドで一時停止している状態
+      $ docker pause status-test
+      この状態では応答できない。unpauseコマンドで解除できる
+
+    ④Restart → 再起動中
+
+    ⑤Exited → 実行は終了したが残っている状態
+      $ docker stop status-test
+
+    ⑥Removing → 削除中
+
+    ⑦Dead → 正常に終了できずに残ってしまった状態。削除するしかない
