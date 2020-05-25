@@ -225,9 +225,21 @@
       
       $ docker exec -it <コンテナ名 or コンテナID> /bin/bash
         → exec自体は、起動したコンテナ内で任意のコマンドを実行するためのコマンド
-        → exitで抜けてもコンテナは停止しない。こちらがベストプラクティス
+        → execはすでに起動しているコンテナ上で特定のコマンドを実行する。
+        → exitで抜けてもコンテナは停止しない。こちらがベストプラクティス 
 
     ubuntuのコンテナを起動して、bashを立ち上げた状態にする
     $ docker run --name connect-test -it -d ubuntu /bin/bash
 
     $ docker exec -it connect-test /bin/bash
+
+  
+  28.Dockerコミットの解説
+    $ docker commit <コンテナ名 or コンテナID> <イメージ名>:<タグ名>
+      → コンテナの状態をイメージとして保存することができる。
+      ただしこの時、コンテナ内で行った作業はどこにも明確な記録として残らない。
+      dockerfileをビルドしてイメージを作った時、何のコマンドを使用したかが
+      レイヤーとして記録されている。これをdocker historyコマンドで確認できる。
+      コンテナ内部で実行したコマンドはこれには出てこない。
+      なので基本的にはdockerfileを使う方がいい。
+
