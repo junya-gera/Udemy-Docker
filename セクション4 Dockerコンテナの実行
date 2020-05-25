@@ -142,3 +142,42 @@
 
       $ docker run --name first-nginx -v /Users/wadajunya/imagebuild/docker-tutrial/html:/usr/share/nginx/html:ro -d -p 8080:80 nginx
         これでホスト上のディレクトリをnginx上で公開できるようになった
+
+    
+
+    25.DockerfileのCOPY命令、ADD命令
+      →ホストマシン上のファイルを、イメージ内にコピーする命令
+
+      $ docker run --name tmp-nginx --rm -d nginx
+        →コンテナは起動を止めた後も残り続ける。同名のコンテナが既にあると起動できない。
+        今回はコンテナからnginxの設定ファイルを取り出すだけなので、--rmをつけることで
+        起動を止めると同時に削除されるようにする
+
+      ホストマシンのファイルをコンテナ内にコピーする場合
+        $ docker cp <ホスト上のコピーしたいファイルのパス> \
+          <コンテナ名 or ID> : <コピー先のパス>
+
+      コンテナ内のファイルをホストマシンにコピーする場合
+        $ docker cp <コンテナ名 or ID> : <コンテナ上のコピーしたいファイルのパス> \
+          <コピー先のパス>
+
+      今回はtmp-nginxというコンテナからnginxの設定ファイルをホストにコピーする
+        $ docker cp tmp-nginx:/etc/nginx/conf.d/default.conf ./
+        lsをすればコピーできたか確かめられる
+
+      $ vim default.conf
+        →ポート番号を8080に変更してみる
+
+      $ vim Dockerfile
+        FROM nginx:latest
+        COPY default.conf /etc/nginx/conf.d/default.conf
+          →nginxのlatestタグのイメージを元にして、ビルドコンテキストに存在する
+          default.confのファイルを、nginxの設定ファイルのパスにコピーする
+
+      ビルドしてみる
+        $ docker build -t nginx:ver1 .
+
+      コンテナを起動
+        $ docker run --name web -p 8080:8080 --rm nginx:ver1
+
+      ADD命令はCOPY命令に加えていくつか機能があるが、COPYがベストプラクティス
