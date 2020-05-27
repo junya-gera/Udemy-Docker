@@ -7,3 +7,15 @@
 
   仮想マシンを立ち上げるに当たって何かしらの仮想化ソフトウェアが必要になる
   Docker MachineではデフォルトでVirtualBoxで立ち上げる
+
+
+36. Docker Machineを使用したDockerホストの管理
+  ローカルPCにDockerホストを作成する
+
+  $ docker-machine ls
+    → docker machineのリストを表示
+
+  $ docker-machine create --driver virtualbox default
+    → 仮想化のドライバーにvirtualboxを使用して、defaultという名前の
+      dockerホストを作成する。defaultの部分は任意のマシン名をつけられる
+      デフォルトでvirtualboxが選ばれるので--driverは実はいらない
