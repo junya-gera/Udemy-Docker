@@ -1,0 +1,34 @@
+48. Docker Composeの概要
+  複数のコンテナから成るサービスを構築・実行する手順を自動的にし、管理を容易に
+  する機能。composeファイルを用意してコマンドを1回実行することで、
+  そのファイルから設定を読み込んで全てのコンテナサービスを起動できる
+
+  Compose実行のステップ
+    1.それぞれのコンテナにDockerfileを用意するか、
+      使用するイメージをDocker Hubなどに用意する
+
+    2.docker-compose.ymlを作成し、それぞれ独立したコンテナの起動定義を行う
+      （場合によっては構築定義も含まれる）
+
+    3.docker-compose upコマンドを実行してdocker-compose.ymlで定義した
+      コンテナを開始する
+
+  docker-compose.ymlの中身の解説
+    version: '3' → docker-composeのファイル形式のversion
+    services:
+      web(任意のサービス名):
+        build: . → docker-compose.ymlと同じディレクトリをビルドコンテキストとする
+        ports: → コンテナ外部に公開するポートとマッピング先のポート
+          - "5000:5000"
+        volumes:
+          - .:/code → バインドマウントでdocker-compose.ymlの存在するディレクトリをコンテナの/codeディレクトリにマウントしている
+          - logvolume01:/ver/log → volumesに定義したlogvolume01のボリュームをwebサーバーのコンテナの/var/logにマウントしている
+        links:
+          - redis → webサービスからredisサービスへのリンクを設定
+      redis(任意のサービス名):
+        image: redis → redisイメージを使用してコンテナを立ち上げている
+    volumes: → 名前をつけたボリュームをマウントする場合はここで定義しておく必要がある
+      logvolume01: {}
+
+    このyamlファイルを元に、docker-compose upコマンドを実行することで、
+    web,redisの2つのコンテナが定義に基づいて起動される
